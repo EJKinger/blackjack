@@ -10,7 +10,7 @@
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
 1. [Contributing](#contributing)
-1. [Team](#engineering team)
+1. [Team](#engineering-team)
 
 
 ## Requirements
