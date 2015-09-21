@@ -20,3 +20,45 @@ class window.Game extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
+    @get("playerHand").on('add', @playerScorer)
+    @get('playerHand').on('stand', @playDealerHand)
+    @get('dealerHand').on('stand', @endGame)
+
+  playerScorer: =>
+    #TODO
+    #if player has 'natural' 21 /blackjack
+      #check if dealer has natural
+      #end game
+    #if player busted, endgame
+    if _.min(@get("playerHand").scores()) > 21
+      @trigger('outcome', 'loss')
+
+  playDealerHand: =>
+    @get('dealerHand').playDealer()
+
+  endGame: =>
+    console.log('endgame sequence')
+    playerScores = @get("playerHand").scores()
+    dealerScores = @get("dealerHand").scores()
+    # if _.min(playerScores) > 21
+    #   outcome = 'loss'
+    if _.min(dealerScores) > 21
+      outcome = 'win'
+      # ...
+      #if dealerHand min > 21, render dealer loss
+      #else compare hands to detirmine winner/loser
+    else
+      playerScore = if playerScores[1] > 21 then playerScores[0] else playerScores[1]
+      dealerScore = if dealerScores[1] > 21 then dealerScores[0] else dealerScores[1]
+      if dealerScore > playerScore
+        outcome = "loss"
+      else if playerScore > dealerScore
+        outcome = "win"
+      else
+        outcome = "draw"
+    @trigger('outcome', outcome)
+
+    #compare scores
+    #detirmine winner/loser
+    #render results
+    #give an option to start a new game
